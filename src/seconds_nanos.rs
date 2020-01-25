@@ -21,6 +21,7 @@ pub fn seconds_and_nanos(nanoseconds: i64) -> (i64, u32) {
 
 // A second adjustment for when nanoseconds are within 1 step, instead of unbounded.
 pub fn carry_and_nanos(nanoseconds: i64) -> (i64, u32) {
+    assert!(nanoseconds > -NANOSECONDS_IN_SECOND && nanoseconds < 2 * NANOSECONDS_IN_SECOND);
     if nanoseconds < 0 {
         (-1, (nanoseconds + NANOSECONDS_IN_SECOND) as u32)
     } else if nanoseconds >= NANOSECONDS_IN_SECOND {
