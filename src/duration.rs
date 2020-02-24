@@ -4,6 +4,7 @@ use std::i64;
 use std::u32;
 
 use std::ops::Add;
+use std::ops::AddAssign;
 use std::ops::Neg;
 
 use crate::constants::*;
@@ -13,6 +14,8 @@ use crate::seconds_nanos::*;
 pub mod abs;
 #[cfg(test)]
 pub mod add;
+#[cfg(test)]
+pub mod add_assign;
 #[cfg(test)]
 pub mod constants;
 #[cfg(test)]
@@ -558,6 +561,19 @@ fn plus_internal(left_seconds: i64, right_seconds: i64, nanos: i64) -> Option<Du
             seconds: final_seconds,
             nanoseconds_of_second: final_nanos,
         })
+}
+
+impl AddAssign for Duration {
+    /// Adds one duration to another, and assigns the result to the left hand operand.
+    ///
+    /// # Parameters
+    /// - `rhs`: the other duration to add, positive or negative.
+    ///
+    /// # Panics
+    ///  - if the addition would overflow the duration.
+    fn add_assign(&mut self, rhs: Duration) {
+        *self = *self + rhs;
+    }
 }
 
 impl fmt::Display for Duration {
